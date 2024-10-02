@@ -4,15 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beds24 モバイル管理アプリ</title>
+
+  <!-- FullCalendarのCSSとJS -->
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+
   <style>
-    /* スタイル */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+    .form-container {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 <body>
-  <!-- HTMLコンテンツ -->
 
+  <h1>Beds24 モバイル管理アプリ</h1>
+
+  <!-- カレンダー表示 -->
   <div id="calendar"></div>
 
   <!-- 価格変更フォーム -->
@@ -36,73 +75,34 @@
     <button onclick="updateAvailability()">予約状況を更新</button>
   </div>
 
-  <!-- ここからJavaScriptを記述 -->
+  <!-- 新規予約フォーム -->
+  <div class="form-container">
+    <h2>新規予約作成</h2>
+    <form id="bookingForm">
+      <label for="name">名前</label>
+      <input type="text" id="name" required>
+
+      <label for="guests">人数</label>
+      <input type="number" id="guests" required>
+
+      <label for="phone">電話番号</label>
+      <input type="tel" id="phone" required>
+
+      <button type="button" onclick="createBooking()">予約を作成</button>
+    </form>
+  </div>
+
   <script>
-    // zu/Qy8TGk3rkXD7PaQV6wpprXjFNnRNhwzbgjyn+tkuRrZcA8bojV1eWCxhKgNGgywQkhUDxQiRO/9Y6rALiIquDEE5BhTKe5xfq7NC0EFHIeKdc7uzljtjYG10raFv92XNvdlGTrVCItQoNu9GP0w==
-    const API_TOKEN = 'YOUR_GENERATED_TOKEN';  // zu/Qy8TGk3rkXD7PaQV6wpprXjFNnRNhwzbgjyn+tkuRrZcA8bojV1eWCxhKgNGgywQkhUDxQiRO/9Y6rALiIquDEE5BhTKe5xfq7NC0EFHIeKdc7uzljtjYG10raFv92XNvdlGTrVCItQoNu9GP0w==
-    const YOUR_PROPERTY_ID = 'YOUR_PROPERTY_ID'; // 219763
-
-    function updatePrice() {
-      const newPrice = document.getElementById('price').value;
-      const selectedDate = new Date();
-
-      fetch('https://api.beds24.com/json/setPrices', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_TOKEN}` // トークンを使用
-        },
-        body: JSON.stringify({
-          propertyId: YOUR_PROPERTY_ID,  // 物件IDを指定
-          prices: [{
-            date: selectedDate.toISOString().split('T')[0],  // 日付を "YYYY-MM-DD" 形式に
-            price: newPrice  // 新しい価格
-          }]
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          alert('価格が更新されました');
-        } else {
-          alert('価格更新に失敗しました');
-        }
-      })
-      .catch(error => {
-        console.error('エラー:', error);
-      });
-    }
-
-    function updateAvailability() {
-      const status = document.getElementById('availabilityStatus').value;
-      const selectedDate = new Date();
-
-      fetch('https://api.beds24.com/json/setAvailability', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_TOKEN}` // トークンを使用
-        },
-        body: JSON.stringify({
-          propertyId: YOUR_PROPERTY_ID,
-          availability: [{
-            date: selectedDate.toISOString().split('T')[0],
-            status: status
-          }]
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          alert('予約可能状況が更新されました');
-        } else {
-          alert('更新に失敗しました');
-        }
-      })
-      .catch(error => {
-        console.error('エラー:', error);
-      });
-    }
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',  // 月表示のカレンダー
+      contentHeight: 'auto',        // 高さを自動調整
+      height: '100%'                // スクロール可能
+    });
+    calendar.render();
+  });
   </script>
+
 </body>
 </html>
