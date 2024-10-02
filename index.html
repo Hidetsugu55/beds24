@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beds24 モバイル管理アプリ</title>
+
+  <!-- FullCalendarのCSSとJS -->
   <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js'></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,6 +19,7 @@
     #calendar {
       max-width: 900px;
       margin: 0 auto;
+      margin-top: 20px;
     }
     .form-container {
       margin-top: 20px;
@@ -90,45 +94,14 @@
   </div>
 
   <script>
-    // カレンダーの表示
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        contentHeight: 'auto',
-        height: '100%',
-      });
-      calendar.render();
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',  // 月表示のカレンダー
+      contentHeight: 'auto',        // 高さを自動調整
+      height: '100%'                // スクロール可能
     });
-
-    // 価格を更新する関数（仮）
-    function updatePrice() {
-      var selectedDate = new Date();  // デモのため、現在の日付を使用
-      var newPrice = document.getElementById('price').value;
-
-      // ここにAPIリクエストを追加する
-      alert('価格を ' + newPrice + ' に更新しました！（仮動作）');
-    }
-
-    // 予約状況を更新する関数（仮）
-    function updateAvailability() {
-      var status = document.getElementById('availabilityStatus').value;
-      var selectedDate = new Date();  // デモのため、現在の日付を使用
-
-      // ここにAPIリクエストを追加する
-      alert('予約状況を ' + status + ' に更新しました！（仮動作）');
-    }
-
-    // 新規予約を作成する関数（仮）
-    function createBooking() {
-      var name = document.getElementById('name').value;
-      var guests = document.getElementById('guests').value;
-      var phone = document.getElementById('phone').value;
-
-      // ここにAPIリクエストを追加する
-      alert('予約が作成されました！（仮動作）\n名前: ' + name + '\n人数: ' + guests + '\n電話番号: ' + phone);
-    }
-  </script>
-
-</body>
+    calendar.render();
+  });
+</script>
 </html>
